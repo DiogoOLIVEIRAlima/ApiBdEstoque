@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excluir Produto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 50px;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+
+        p#responseMessage {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+<form id="deleteForm">
+    <label for="productID">ID do Produto:</label>
+    <input type="number" id="productID" required>
+
+    <input type="submit" value="Excluir" onclick="excluirProduto()">
+</form>
+
+<a href="index.html" class="back-btn">Voltar para Index</a>
+
+<!-- Parágrafo para a resposta -->
+<p id="responseMessage"></p>
+
+<script>
+
+    function excluirProduto() {
+        debugger
+        const idExcluir = parseInt(document.getElementById('productID').value);
+        let p = document.getElementById("responseMessage");
+
+        fetch(`/api/produtos/deletar/${idExcluir}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                debugger
+                if (response.status === 201) {
+                   p.textContent = "Produto excluido com sucesso"
+
+                } else {
+                    p.textContent = "Opps algo deu errado"
+                }
+            })
+            .catch(error => console.error('Erro ao excluir produto:', error));
+    }
+</script>
+</body>
+
+</html>
